@@ -1,21 +1,12 @@
 import React from 'react';
 import Button from './Button';
 
-function Controls() {
-  function startTimer(params) {
-    console.log('start');
-  }
-  function pauseTimer(params) {
-    console.log('pause');
-  }
-  function resetTimer(params) {
-    console.log('reset');
-  }
+function Controls({ start, stop, pause, reset, buttonStartStopName }) {
   return (
     <div className="controls">
-      <Button onClick={startTimer} name={'start/stop'} />
-      <Button onClick={pauseTimer} name={'wait'} />
-      <Button onClick={resetTimer} name={'reset'} />
+      <Button onClick={buttonStartStopName === 'START' ? start : stop} name={buttonStartStopName} />
+      <Button onClick={pause} name={'wait'} />
+      <Button onClick={reset} name={'reset'} />
     </div>
   );
 }
