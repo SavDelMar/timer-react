@@ -7,9 +7,9 @@ export function Button({ name, onClick, onDoubleClick }) {
     </div>
   );
 }
-export function ButtonWait({ name, onDoubleClick }) {
+export function ButtonWait({ name, onDoubleClick, onClick }) {
   return (
-    <div onDoubleClick={onDoubleClick} className={`button button--wait`}>
+    <div onClick={onClick} onDoubleClick={onDoubleClick} className={`button button--wait`}>
       {name}
     </div>
   );

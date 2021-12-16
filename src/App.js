@@ -5,7 +5,6 @@ import { map, interval, takeUntil, fromEvent } from 'rxjs';
 import { useState } from 'react';
 
 function App() {
-  let allSeconds = 1;
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
@@ -14,11 +13,13 @@ function App() {
   const [buttonName, setButtonName] = useState('START');
   const timer = interval(1000);
 
-  function startTimer() {
-    if (isOn === true) {
-      allSeconds = 1;
-    } else {
+  function startTimer(controlsType) {
+    let allSeconds;
+    if (isOn === false && controlsType !== 'RESET') {
+      // попадает только событие с кнопки СТАРТ
       allSeconds = seconds + 1;
+    } else {
+      allSeconds = 1; // попадает RESET
     }
     timer
       .pipe(
@@ -39,6 +40,7 @@ function App() {
     setSeconds(0);
     setMinutes(0);
     setHours(0);
+    setIsOn(false);
   }
   function pauseTimer() {
     if (isOn === true) {
@@ -48,13 +50,12 @@ function App() {
       setMinutes(minutes);
       setHours(hours);
       setIsOn(false);
+    } else {
+      console.log('таймер уже остановлен или не был запущен');
     }
   }
   function resetTimer() {
-    setSeconds(0);
-    setMinutes(0);
-    setHours(0);
-    startTimer();
+    startTimer('RESET');
   }
   return (
     <div className="App">
