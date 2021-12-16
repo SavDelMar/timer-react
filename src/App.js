@@ -9,17 +9,24 @@ function App() {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
-  const [buttonName, setButtonName] = useState('START');
+  const [isOn, setIsOn] = useState(false);
 
-  // let time = interval(1000);
-  const subscription = interval(1000);
+  const [buttonName, setButtonName] = useState('START');
+  const timer = interval(1000);
+
   function startTimer() {
-    subscription
+    if (isOn === true) {
+      allSeconds = 1;
+    } else {
+      allSeconds = seconds + 1;
+    }
+    timer
       .pipe(
-        map((v) => allSeconds++),
-        takeUntil(fromEvent(document.querySelector('.controls'), 'click')),
+        map(() => allSeconds++),
+        takeUntil(fromEvent(document.querySelectorAll('.button--stop'), 'click')),
       )
       .subscribe((res) => {
+        setIsOn(true);
         setSeconds(res % 60);
         setMinutes(((res - (res % 60)) % 3600) / 60);
         setHours(Math.floor(res / 3600));
@@ -28,15 +35,20 @@ function App() {
   }
 
   function stopTimer() {
-    console.log('i cant stop');
     setButtonName('START');
     setSeconds(0);
     setMinutes(0);
     setHours(0);
   }
   function pauseTimer() {
-    console.log('i cant paused');
-    console.log(seconds, minutes, hours);
+    if (isOn === true) {
+      document.querySelector('.button--stop').click();
+      setButtonName('START');
+      setSeconds(seconds);
+      setMinutes(minutes);
+      setHours(hours);
+      setIsOn(false);
+    }
   }
   function resetTimer() {
     setSeconds(0);

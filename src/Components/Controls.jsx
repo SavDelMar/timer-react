@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from './Button';
+import { Button, ButtonWait } from './Buttons';
 
 function Controls({ start, stop, pause, reset, buttonStartStopName }) {
   const [seconds, setSeconds] = useState(0);
@@ -14,13 +14,12 @@ function Controls({ start, stop, pause, reset, buttonStartStopName }) {
   return (
     <div className="controls">
       <Button onClick={buttonStartStopName === 'START' ? start : stop} name={buttonStartStopName} />
-      <Button
-        className=".wait--button"
+      <ButtonWait
         onDoubleClick={differ < 300 ? pause : console.log('more then 300ms')}
         onClick={onClick}
-        name={'wait'}
+        name={'WAIT'}
       />
-      <Button onClick={reset} name={'reset'} />
+      <Button onClick={reset} name={'RESET'} />
     </div>
   );
 }
